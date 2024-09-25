@@ -41,7 +41,7 @@ class UserController {
             if (!isValidPassword(user, password)) return res.status(409).json({ message: 'Contraseña o email inválidos.' });
 
             const accessToken = createToken(user)
-            res.cookie(process.env.JWT_COOKIE_KEY, accessToken, { maxAge: 3600000, httpOnly: false, sameSite: 'none', secure: true})
+            res.cookie(process.env.JWT_COOKIE_KEY, accessToken, { maxAge: 3600000, httpOnly: true, sameSite: 'none', secure: true})
 
             return res.status(200).json({ message: 'Sesión iniciada', user, accessToken });
         } catch (error) {
