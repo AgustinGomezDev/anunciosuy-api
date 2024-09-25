@@ -20,9 +20,14 @@ config.mongoInstance()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: [process.env.LOCALHOST_CORS, 'https://www.anunciosuy.com/', 'https://anunciosuy.com/'],
+    origin: [process.env.LOCALHOST_CORS, 'https://www.anunciosuy.com', 'https://anunciosuy.com'],
     credentials: true
 }))
+app.options('*', cors({
+    origin: [process.env.LOCALHOST_CORS, 'https://www.anunciosuy.com', 'https://anunciosuy.com'],
+    credentials: true
+}));
+
 app.use(cookieParser());
 
 app.use(mainRouter)
