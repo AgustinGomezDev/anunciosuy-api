@@ -3,7 +3,8 @@ const advertModel = require('../models/adverts.models')
 class AdvertController {
     get = async (req, res, next) => {
         try {
-            const adverts = await advertModel.find()
+            const limit = parseInt(req.query.limit) || 20
+            const adverts = await advertModel.find().limit(limit)
 
             if (!adverts || adverts.length < 1) return res.status(404).json({ message: 'No se han encontrado anuncios.' })
 

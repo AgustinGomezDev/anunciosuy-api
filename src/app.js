@@ -10,7 +10,7 @@ const mainRouter = require('./routes/index')
 
 const app = express();
 
-const PORT = 8080
+const PORT = process.env.PORT
 
 const httpServer = app.listen(PORT, () => {
     console.log('Server running on port: ' + PORT)
@@ -20,7 +20,7 @@ config.mongoInstance()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:4173'],
+    origin: [process.env.LOCALHOST_CORS, process.env.PRODUCTION_CORS_WWW, process.env.PRODUCTION_CORS],
     credentials: true
 }))
 app.use(cookieParser());
