@@ -1,5 +1,5 @@
 const dotenv = require('dotenv')
-const { MongoSingleton } = require('./mongoSingleton')
+const { MongoSingleton } = require('./MongoSingleton')
 
 dotenv.config({ path: './.env' })
 
