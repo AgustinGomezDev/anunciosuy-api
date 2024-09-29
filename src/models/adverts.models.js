@@ -26,7 +26,7 @@ const advertSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        default: 0
     },
     state: {
         type: String,
@@ -41,10 +41,6 @@ const advertSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: new Date()
-    },
-    views: {
-        type: Number,
-        default: 0
     },
     tags: {
         type: [String],
