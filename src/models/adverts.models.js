@@ -50,7 +50,12 @@ const advertSchema = new mongoose.Schema({
         score: { type: Number, min: 0, max: 5, default: 0 },
         totalRatings: { type: Number, default: 0 }, // absolute valuation
         numberOfRatings: { type: Number, default: 0 } // number of reviews
-    }
+    },
+    images: {
+        type: [String],
+        default: []
+    } 
+
 })
 
 const advertModel = mongoose.model(collection, advertSchema)

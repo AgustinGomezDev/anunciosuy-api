@@ -56,7 +56,7 @@ class AdvertController {
 
     post = async (req, res, next) => {
         try {
-            const { title, description, category, location, price, premium, tags } = req.body
+            const { title, description, category, location, price, premium, tags, images } = req.body
 
             if (!title || !description || !category || !location) {
                 return res.status(400).json({ message: 'Faltan datos para publicar el anuncio.' });
@@ -70,7 +70,8 @@ class AdvertController {
                 price,
                 premium: premium == undefined ? false : premium,
                 tags: tags == undefined ? [] : tags,
-                userId: req.user._id
+                userId: req.user._id,
+                images
             }
 
             let result = await advertModel.create(advert)
