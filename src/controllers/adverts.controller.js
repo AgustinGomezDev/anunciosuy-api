@@ -81,8 +81,59 @@ class AdvertController {
         }
     }
 
-    put = async (req, res, next) => {
+    updateAdvert = async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const { title, description, category, location, price, premium, tags, images } = req.body
 
+            const advert = await advertModel.findOne({ _id: id });
+
+            if (!advert) {
+                return res.status(404).json({ message: 'No existe ningún anuncio con esa id.' });
+            }
+
+            if (title) advert.title = title;
+            if (description) advert.description = description;
+            if (category) advert.category = category;
+            if (location) advert.location = location;
+            if (price !== undefined) advert.price = price;
+            if (premium !== undefined) advert.premium = premium;
+            if (tags) advert.tags = tags;
+            if (images) advert.images = images;
+
+            const updatedAdvert = await advert.save();
+
+            return res.status(200).json({ message: 'Anuncio actualizado correctamente.', advert: updatedAdvert });
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    deleteAdvert = async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const advert = await advertModel.findOne({ _id: id })
+
+            if (!advert) return res.status(404).json({ message: 'No existe ningún anuncio con esa id de usuario.' })
+
+            await advertModel.deleteOne({ _id: id })
+            return res.status(200).json({ message: 'Anuncios eliminado correctamente.' })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    getByUserId = async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const adverts = await advertModel.find({ userId: id })
+
+            if (!adverts) return res.status(404).json({ message: 'No existe ningún anuncio con esa id de usuario.' })
+
+            return res.status(200).json({ message: 'Anuncios encontrado.', adverts })
+        } catch (error) {
+            next(error)
+        }
     }
 }
 
