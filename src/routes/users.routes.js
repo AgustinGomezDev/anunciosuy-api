@@ -49,4 +49,15 @@ router.get('/current', authToken, (req, res, next) => {
     }
 })
 
+router.get('/:id', (req, res, next) => {
+    try {
+        const user = UserController.getById(req, res, next)
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error buscando anuncios.',
+            error: error.message
+        })
+    }
+})
+
 module.exports = router 

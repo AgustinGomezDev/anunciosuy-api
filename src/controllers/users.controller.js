@@ -41,7 +41,7 @@ class UserController {
             if (!isValidPassword(user, password)) return res.status(409).json({ message: 'Contraseña o email inválidos.' });
 
             const accessToken = createToken(user)
-            res.cookie(process.env.JWT_COOKIE_KEY, accessToken, { maxAge: 3600000, httpOnly: true, sameSite: 'Lax', secure: true})
+            res.cookie(process.env.JWT_COOKIE_KEY, accessToken, { maxAge: 3600000, httpOnly: true, sameSite: 'Lax', secure: true })
 
             return res.status(200).json({ message: 'Sesión iniciada', user, accessToken });
         } catch (error) {
@@ -50,13 +50,26 @@ class UserController {
     }
 
     logout = async (req, res, next) => {
-        if(req.cookies[process.env.JWT_COOKIE_KEY]){
+        if (req.cookies[process.env.JWT_COOKIE_KEY]) {
             const token = req.cookies[process.env.JWT_COOKIE_KEY]
             const user = decodeJWT(token, process.env.JWT_KEY)
             res.clearCookie(process.env.JWT_COOKIE_KEY)
             return res.status(200).json({ message: 'Sesión cerrada', user, token })
-        }else{
+        } else {
             return res.status(200).json({ message: 'No hay una sesión iniciada' })
+        }
+    }
+
+    getById = async (req, res, next) => {
+        try {
+            const { id } = req.params
+            const user = await userModel.findOne({ _id: id })
+
+            if (!user) return res.status(404).json({ message: 'No existe ningún usuario con esa id.' })
+            
+            return res.status(200).json({ message: 'Usuario encontrado.', user })
+        } catch (error) {
+            next(error)
         }
     }
 }
